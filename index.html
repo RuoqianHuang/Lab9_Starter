@@ -5,6 +5,14 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+  window.TrackJS && TrackJS.install({ 
+    token: "847f3c17d53f4dc19ae16a51bb925da5"
+    // for more configuration options, see https://docs.trackjs.com
+  });
+</script>
+                        
   <title>Lab 9</title>
 
   <style>
@@ -102,6 +110,123 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+    // Step 4
+    class EqualityError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "EqualityError";
+      }
+    }
+
+    function test(x, y) {
+      if (x != y) {
+        throw new EqualityError("Inputs are not equal");
+      }
+    }
+    // Step 5
+    window.onerror = function (event) {
+        console.log("Error occurs");
+        TrackJS.track(event);
+    };
+
+    // Step 2
+    for (let i = 0; i < errorBtns.length; i++) {
+        switch (errorBtns[i].innerText) {
+          case "Console Log":
+            errorBtns[i].addEventListener("click", () => {
+              console.log("Console Log Demo");
+            });
+            break;
+          case "Console Error":
+            errorBtns[i].addEventListener("click", () => {
+              console.error("Console Error Demo");
+            });
+            break;
+          case "Console Count":
+            errorBtns[i].addEventListener("click", () => {
+              console.count("Count Button");
+            });
+            break;
+          case "Console Warn":
+            errorBtns[i].addEventListener("click", () => {
+              console.warn("Console Warn Button");
+            });
+            break;
+          case "Console Assert":
+            errorBtns[i].addEventListener("click", () => {
+              let errorMsg = "The number does not equal 3";
+              let number = 2;
+              let y = 3;
+              console.assert(number == y, {number, errorMsg});
+            });
+            break;
+          case "Console Clear":
+            errorBtns[i].addEventListener("click", () => {
+              console.clear();
+            });
+            break;
+          case "Console Dir":
+            errorBtns[i].addEventListener("click", () => {
+              console.dir("button");
+            });
+            break;
+          case "Console dirxml":
+            errorBtns[i].addEventListener("click", () => {
+              console.dirxml(errorBtns[i]);
+            });
+            break;
+          case "Console Group Start":
+            errorBtns[i].addEventListener("click", () => {
+              console.group("console.group");
+            });
+            break;
+          case "Console Group End":
+            errorBtns[i].addEventListener("click", () => {
+              console.groupEnd();
+            });
+            break;
+          case "Console Table":
+            errorBtns[i].addEventListener("click", () => {
+              var classes = [{name: "Software Engineering", num: 110}, 
+              {name: "Programming Languages: Principles and Paradigms", num: 130}, 
+              {name: "Advanced Software Engineering", num: 112}];
+              console.table(classes);
+            });
+            break;
+          case "Start Timer":
+            errorBtns[i].addEventListener("click", () => {
+              console.time("Timer Button");
+            });
+            break;
+          case "End Timer":
+            errorBtns[i].addEventListener("click", () => {
+              console.timeEnd("Timer Button");
+            });
+            break;
+          case "Console Trace":
+            function handleBtnClick() {
+              const deep = () => { deeper(); };
+              const deeper = () => { deepest(); };
+              const deepest = () => { console.trace(); };
+              deep();
+            }
+            errorBtns[i].addEventListener("click", handleBtnClick);
+            break;
+          case "Trigger a Global Error":
+            errorBtns[i].addEventListener("click", () => {
+              try {
+                test(2, 3);
+              } 
+              catch (e) {
+                console.error(e);
+              }
+            });
+            break;
+          default:
+            break;
+        }
+      }
+
   </script>
 </body>
 
